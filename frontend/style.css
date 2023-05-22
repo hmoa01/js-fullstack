@@ -1,0 +1,23 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.container {
+  width: 100%;
+}
+
+.moviesView {
+  gap: 10px;
+  width: 100%;
+  margin-top: 50px;
+}
+
+.card img {
+  height: 300px;
+}
+
+nav a {
+  cursor: pointer;
+}
