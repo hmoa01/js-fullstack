@@ -9,6 +9,7 @@ const titleInput = document.querySelector('input[name="title"]');
 const yearInput = document.querySelector('input[name="year"]');
 const categoryInput = document.querySelector('input[name="category"]');
 const rateInput = document.querySelector('input[name="rate"]');
+const searchInput = document.querySelector("#search");
 
 //EDIT INPUTS
 const eTitleInput = document.querySelector('input[name="etitle"]');
@@ -28,10 +29,17 @@ addViewBtn.addEventListener("click", () => {
 });
 addButton.addEventListener("click", addMovie);
 editButton.addEventListener("click", editMovie);
+searchInput.addEventListener("keyup", searchMovie);
 
 //FUNCTIONS
 
 displayList();
+
+function searchMovie() {
+  let searchTerm = this.value;
+  let filtered = db.filter((movie) => movie.title.includes(searchTerm));
+  displayList(filtered);
+}
 
 function addMovie() {
   let newMovie = {
@@ -84,9 +92,10 @@ function deleteMovie() {
   displayList();
 }
 
-function displayList() {
+function displayList(filtered) {
   let html = ``;
-  db.forEach((movie, index) => {
+  let currentMovies = filtered || db;
+  currentMovies.forEach((movie, index) => {
     html += `
             <div class="card col-md-4 p-0" style="width: 18rem;">
                 <img class="card-img-top" src="${movie.image}" alt="Card image cap">
