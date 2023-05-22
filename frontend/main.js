@@ -1,6 +1,88 @@
+//SELECTORS
 const moviesView = document.querySelector(".moviesView");
+const addMoviesView = document.querySelector(".add-movies-view");
+const editMoviesView = document.querySelector(".edit-movies-view");
+
+//INPUTS
+const imageInput = document.querySelector('input[name="image"]');
+const titleInput = document.querySelector('input[name="title"]');
+const yearInput = document.querySelector('input[name="year"]');
+const categoryInput = document.querySelector('input[name="category"]');
+const rateInput = document.querySelector('input[name="rate"]');
+
+//EDIT INPUTS
+const eTitleInput = document.querySelector('input[name="etitle"]');
+const eYearInput = document.querySelector('input[name="eyear"]');
+const eCategoryInput = document.querySelector('input[name="ecategory"]');
+const eRateInput = document.querySelector('input[name="erate"]');
+
+//BUTTONS
+const addViewBtn = document.querySelector("#addViewBtn");
+const addButton = document.querySelector("#addBtn");
+const editButton = document.querySelector("#editBtn");
+
+//Events
+addViewBtn.addEventListener("click", () => {
+  moviesView.style.display = "none";
+  addMoviesView.style.display = "block";
+});
+addButton.addEventListener("click", addMovie);
+editButton.addEventListener("click", editMovie);
+
+//FUNCTIONS
 
 displayList();
+
+function addMovie() {
+  let newMovie = {
+    image: imageInput.value,
+    title: titleInput.value,
+    year: yearInput.value,
+    category: categoryInput.value,
+    rate: rateInput.value,
+  };
+  db.push(newMovie);
+  displayList();
+  moviesView.style.display = "flex";
+  addMoviesView.style.display = "none";
+}
+
+function displayEditForm() {
+  let indexOfMovie = this.getAttribute("data-index");
+  let selectedMovie = db[indexOfMovie];
+
+  eTitleInput.value = selectedMovie.title;
+  eCategoryInput.value = selectedMovie.category;
+  eYearInput.value = selectedMovie.year;
+  eRateInput.value = selectedMovie.rate;
+
+  editButton.setAttribute("data-index", indexOfMovie);
+  moviesView.style.display = "none";
+  editMoviesView.style.display = "block";
+}
+
+function editMovie() {
+  let indexOfMovie = this.getAttribute("data-index");
+  let editedMovie = {
+    id: db[indexOfMovie].id,
+    image: db[indexOfMovie].image,
+    title: eTitleInput.value,
+    year: eYearInput.value,
+    category: eCategoryInput.value,
+    rate: eRateInput.value,
+  };
+
+  db[indexOfMovie] = editedMovie;
+  editMoviesView.style.display = "none";
+  moviesView.style.display = "flex";
+  displayList();
+}
+
+function deleteMovie() {
+  let indexOfMoive = this.getAttribute("data-index");
+  db.splice(indexOfMoive, 1);
+  displayList();
+}
 
 function displayList() {
   let html = ``;
@@ -19,6 +101,13 @@ function displayList() {
            </div>   
         `.trim();
   });
-
   moviesView.innerHTML = html;
+  const editBtn = document.querySelectorAll(".editBtn");
+  const deleteBtn = document.querySelectorAll(".deleteBtn");
+
+  editBtn.forEach((btn, index) => {
+    btn.addEventListener("click", displayEditForm);
+    deleteBtn[index].addEventListener("click", deleteMovie);
+  });
+  addMoviesView.style.display = "none";
 }
