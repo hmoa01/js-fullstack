@@ -41,7 +41,7 @@ function searchMovie() {
   displayList(filtered);
 }
 
-function addMovie() {
+async function addMovie() {
   let newMovie = {
     image: imageInput.value,
     title: titleInput.value,
@@ -50,6 +50,15 @@ function addMovie() {
     rate: rateInput.value,
   };
   db.push(newMovie);
+  let data = api
+    .getData("POST", "http://localhost:4000/api/movies/add", newMovie)
+    .then((response) => {
+      console.log("Succesfully send request:", response);
+    })
+    .catch(function (error) {
+      console.error("Sending error:", error);
+    });
+
   displayList();
   moviesView.style.display = "flex";
   addMoviesView.style.display = "none";
