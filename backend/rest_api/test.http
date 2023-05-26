@@ -1,0 +1,17 @@
+### GET SOME RESPONSE FROM SERVER
+GET http://localhost:4000/
+
+### GET ALL MOVIES
+GET http://localhost:4000/api/movies/
+
+### POST NEW MOVIE
+POST http://localhost:4000/api/movies/add
+
+Content-Type": "application/json"
+{
+    "title": "Spider-Man",
+    "year": "2002",
+    "category": ["Action, Adventure, Sci-Fi"],
+    "yrate": "8.2"
+
+}
